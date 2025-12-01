@@ -1,3 +1,10 @@
+"""
+MCP AI Remote Terminal - Kali Backend Server
+Copyright (c) 2025 Pugazhenthi
+LinkedIn: https://www.linkedin.com/in/pugazh28
+Licensed for educational and ethical hacking purposes.
+"""
+
 import argparse
 import json
 import logging
@@ -6,8 +13,10 @@ import subprocess
 import sys
 import traceback
 import threading
+import uuid
 from typing import Dict, Any
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, session
+from flask_session import Session
 
 # Configure logging
 logging.basicConfig(
@@ -20,17 +29,24 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-API_PORT = int(os.environ.get("API_PORT", 5000))
+API_PORT = int(os.environ.get("API_PORT", 5090))
 DEBUG_MODE = os.environ.get("DEBUG_MODE", "0").lower() in ("1", "true", "yes", "y")
 COMMAND_TIMEOUT = 180  # 5 minutes default timeout
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.urandom(24)
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
+
+# Session storage for working directories
+session_dirs = {}
 
 class CommandExecutor:
     """Class to handle command execution with better timeout management"""
     
-    def __init__(self, command: str, timeout: int = COMMAND_TIMEOUT):
+    def __init__(self, command: str, cwd: str = None, timeout: int = COMMAND_TIMEOUT):
         self.command = command
+        self.cwd = cwd or os.path.expanduser('~')
         self.timeout = timeout
         self.process = None
         self.stdout_data = ""
@@ -52,7 +68,7 @@ class CommandExecutor:
     
     def execute(self) -> Dict[str, Any]:
         """Execute the command and handle timeout gracefully"""
-        logger.info(f"Executing command: {self.command}")
+        logger.info(f"Executing command: {self.command} in {self.cwd}")
         
         try:
             self.process = subprocess.Popen(
@@ -61,7 +77,8 @@ class CommandExecutor:
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                bufsize=1  # Line buffered
+                bufsize=1,  # Line buffered
+                cwd=self.cwd
             )
             
             # Start threads to read output continuously
@@ -120,17 +137,18 @@ class CommandExecutor:
             }
 
 
-def execute_command(command: str) -> Dict[str, Any]:
+def execute_command(command: str, cwd: str = None) -> Dict[str, Any]:
     """
     Execute a shell command and return the result
     
     Args:
         command: The command to execute
+        cwd: Working directory for the command
         
     Returns:
         A dictionary containing the stdout, stderr, and return code
     """
-    executor = CommandExecutor(command)
+    executor = CommandExecutor(command, cwd=cwd)
     return executor.execute()
 
 
@@ -140,6 +158,7 @@ def generic_command():
     try:
         params = request.json
         command = params.get("command", "")
+        session_id = params.get("session_id", "default")
         
         if not command:
             logger.warning("Command endpoint called without command parameter")
@@ -147,7 +166,48 @@ def generic_command():
                 "error": "Command parameter is required"
             }), 400
         
-        result = execute_command(command)
+        # Get or initialize session directory
+        if session_id not in session_dirs:
+            session_dirs[session_id] = os.path.expanduser('~')
+        
+        cwd = session_dirs[session_id]
+        
+        # Handle cd command specially
+        if command.strip().startswith('cd '):
+            target = command.strip()[3:].strip()
+            if not target or target == '~':
+                new_dir = os.path.expanduser('~')
+            elif target == '-':
+                # cd - not fully supported, just go home
+                new_dir = os.path.expanduser('~')
+            else:
+                if os.path.isabs(target):
+                    new_dir = target
+                else:
+                    new_dir = os.path.join(cwd, target)
+                
+                new_dir = os.path.abspath(new_dir)
+            
+            if os.path.isdir(new_dir):
+                session_dirs[session_id] = new_dir
+                return jsonify({
+                    "stdout": "",
+                    "stderr": "",
+                    "return_code": 0,
+                    "success": True,
+                    "cwd": new_dir
+                })
+            else:
+                return jsonify({
+                    "stdout": "",
+                    "stderr": f"/bin/sh: 1: cd: can't cd to {target}\n",
+                    "return_code": 1,
+                    "success": False,
+                    "cwd": cwd
+                })
+        
+        result = execute_command(command, cwd=cwd)
+        result['cwd'] = cwd
         return jsonify(result)
     except Exception as e:
         logger.error(f"Error in command endpoint: {str(e)}")

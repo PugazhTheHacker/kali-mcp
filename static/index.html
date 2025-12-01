@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP AI Remote Terminal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="cyber-header">
+            <div class="logo">
+                <i class="fa-solid fa-terminal"></i>
+                <span>MCP<span class="highlight">TERMINAL</span></span>
+            </div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="status-label">SYS:</span>
+                    <span class="status-value online">ONLINE</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">NET:</span>
+                    <span class="status-value secure">SECURE</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">AI:</span>
+                    <span class="status-value active">ACTIVE</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Terminal Panel -->
+            <section class="panel terminal-panel active" id="terminal-panel">
+                <div class="panel-header">
+                    <h3><i class="fa-solid fa-code"></i> KALI SHELL</h3>
+                    <div class="panel-controls">
+                        <button class="icon-btn" id="clear-term" title="Clear Terminal"><i
+                                class="fa-solid fa-eraser"></i></button>
+                        <button class="icon-btn" id="expand-term" title="Expand"><i
+                                class="fa-solid fa-expand"></i></button>
+                    </div>
+                </div>
+                <div class="terminal-display" id="terminal-output">
+                    <div class="term-line system">Welcome to MCP AI Remote Terminal v1.0</div>
+                    <div class="term-line system">Connected to Kali Linux Backend...</div>
+                    <div class="term-line system">Type 'help' for available commands.</div>
+                </div>
+                <div class="terminal-input-area">
+                    <span class="prompt">root@kali:~#</span>
+                    <input type="text" id="cmd-input" autocomplete="off" spellcheck="false" autofocus>
+                </div>
+            </section>
+
+            <!-- AI Chat Panel -->
+            <section class="panel chat-panel" id="chat-panel">
+                <div class="panel-header">
+                    <h3><i class="fa-solid fa-robot"></i> GEMINI AI</h3>
+                    <div class="panel-controls">
+                        <button class="icon-btn" id="clear-chat" title="Clear Chat"><i
+                                class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="chat-display" id="chat-output">
+                    <div class="message ai">
+                        <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                        <div class="content">Hello! I'm your Gemini-powered cybersecurity assistant. How can I help you
+                            today?</div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Ask AI for help or tools..." autocomplete="off">
+                    <button id="send-chat"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </section>
+        </main>
+
+        <div class="mobile-nav">
+            <button class="nav-btn active" data-target="terminal-panel">
+                <i class="fa-solid fa-terminal"></i>
+                <span>Terminal</span>
+            </button>
+            <button class="nav-btn" data-target="chat-panel">
+                <i class="fa-solid fa-robot"></i>
+                <span>AI Chat</span>
+            </button>
+            <button class="nav-btn" id="tools-menu-btn">
+                <i class="fa-solid fa-toolbox"></i>
+                <span>Tools</span>
+            </button>
+        </div>
+
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p>&copy; 2025 Developed by <a href="https://www.linkedin.com/in/pugazh28" target="_blank"
+                        rel="noopener noreferrer">Pugazhenthi</a></p>
+                <p class="footer-subtitle">MCP AI Remote Terminal - Built for Ethical Hackers</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Tools Modal -->
+    <div class="modal" id="tools-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Quick Tools</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="nmap">
+                    <i class="fa-solid fa-network-wired"></i>
+                    <span>Nmap Scan</span>
+                </div>
+                <div class="tool-card" data-tool="hydra">
+                    <i class="fa-solid fa-key"></i>
+                    <span>Hydra Crack</span>
+                </div>
+                <div class="tool-card" data-tool="tshark">
+                    <i class="fa-solid fa-wifi"></i>
+                    <span>Wireshark</span>
+                </div>
+                <div class="tool-card" data-tool="nikto">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Nikto Scan</span>
+                </div>
+                <div class="tool-card" data-tool="metasploit">
+                    <i class="fa-solid fa-bug"></i>
+                    <span>Metasploit</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
