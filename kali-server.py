@@ -17,6 +17,9 @@ import uuid
 from typing import Dict, Any
 from flask import Flask, request, jsonify, session
 from flask_session import Session
+import flask_session
+print("Flask-Session Path:", flask_session.__file__)
+
 
 # Configure logging
 logging.basicConfig(
@@ -29,7 +32,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Configuration
-API_PORT = int(os.environ.get("API_PORT", 5090))
+API_PORT = int(os.environ.get("API_PORT", 5030))
 DEBUG_MODE = os.environ.get("DEBUG_MODE", "0").lower() in ("1", "true", "yes", "y")
 COMMAND_TIMEOUT = 180  # 5 minutes default timeout
 
