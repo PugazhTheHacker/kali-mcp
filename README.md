@@ -99,7 +99,19 @@ Click the **Tools** button (🛠️) to quickly launch:
 - **Metasploit**: Penetration testing framework
 - 
 
-### 🚀  demo screenshort ui 
+### 🚀  demo screenshort ui
+   
+<p align="center">
+  <img src="" </p>
+
+
+### 🚀  demo kali mcp server demo screenshort
+
+  
+<p align="center">
+  <img src="" </p>
+
+
  
 
 
