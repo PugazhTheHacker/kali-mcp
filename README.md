@@ -102,14 +102,14 @@ Click the **Tools** button (🛠️) to quickly launch:
 ### 🚀  demo screenshort ui
    
 <p align="center">
-  <img src="" </p>
+  <img src="IMG_20251201_143903.png" </p>
 
 
 ### 🚀  demo kali mcp server demo screenshort
 
   
-<p align="center">
-  <img src="" </p>
+<p align="center">                        
+  <img src="IMG_20251201_143918.png" </p>
 
 
  
