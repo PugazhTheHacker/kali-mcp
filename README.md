@@ -6,7 +6,7 @@
 # 🔥 Project Title
 
 ## 🚀 Overview
-A mobile-controlled secure remote terminal for Kali Linux with built-in Gemini AI assistant and **full filesystem access**. Unlike basic remote tools, this provides AI-powered command suggestions, automatic script generation, and cybersecurity tool execution with persistent session management.
+Web based terminal secure remote terminal for Kali Linux with built-in Gemini AI assistant and **full filesystem access**. Unlike basic remote tools, this provides AI-powered command suggestions, automatic script generation, and cybersecurity tool execution with persistent session management.
 
 ## ✨ Features
 - **Dual-panel Interface**: Terminal + AI Chatbot
