@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 # Configuration
 API_PORT = int(os.environ.get("API_PORT", 5020))
 KALI_SERVER_URL = os.environ.get("KALI_SERVER_URL", "http://127.0.0.1:5030")
-GEMINI_API_KEY = "AIzaSyDlkXsUguMH9Jf9c8bZTO1EQE-YxEvGvJk"
+GEMINI_API_KEY = "enter_your_gemini_api_key"
 COMMAND_TIMEOUT = 180
 
 # Initialize Flask
