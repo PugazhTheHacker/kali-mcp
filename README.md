@@ -97,6 +97,11 @@ Click the **Tools** button (🛠️) to quickly launch:
 - **Wireshark/tshark**: Packet capture
 - **Nikto**: Web vulnerability scanning
 - **Metasploit**: Penetration testing framework
+- 
+
+### 🚀  demo screenshort ui 
+ 
+
 
 ## 🔐 Security Notes
 
